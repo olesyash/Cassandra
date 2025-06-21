@@ -109,3 +109,23 @@ services:
       - ./cassandra_client:/app
     entrypoint: >
       sh -c "pip install -r requirements.txt && tail -f /dev/null"
+
+  cassandra-client-tracker:
+    build:
+      context: ./cassandra_client
+      dockerfile: Dockerfile
+    container_name: "cassandra-client-tracker"
+    hostname: cassandra_client_tracker
+    networks:
+      - cassandra-net
+    working_dir: /app
+    command: ["tail", "-f", "/dev/null"]
+    depends_on:
+      cassandra-4:
+        condition: service_healthy
+    env_file:
+      - .env
+    volumes:
+      - ./cassandra_client:/app
+    entrypoint: >
+      sh -c "pip install -r requirements.txt && tail -f /dev/null"
