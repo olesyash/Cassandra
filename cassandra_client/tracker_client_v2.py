@@ -18,7 +18,7 @@ class TrackerClient:
             "CASSANDRA_HOSTS", "cassandra-1,cassandra-2,cassandra-3,cassandra-4"
         ).split(",")
         self.port = 9042
-        self.keyspace = "birds_tracking"
+        self.keyspace = "trackbirds"
         self.table = "bird_locations"
 
         # Tracking configuration

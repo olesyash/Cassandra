@@ -18,13 +18,13 @@ class BirdClient:
             "CASSANDRA_HOSTS", "cassandra-1,cassandra-2,cassandra-3,cassandra-4"
         ).split(",")
         self.port = 9042
-        self.keyspace = "birds_tracking"
-        self.table = "bird_locations"
+        self.keyspace = "trackbirds"
+        self.table = "birds_tracking"
 
         # Bird configuration
         self.num_birds = 10
         self.updates_per_bird = 20
-        self.update_interval = 60  # 1 minute in seconds
+        self.update_interval = 1  # 1 second for faster execution
         
         # Tracing configuration
         self.traced_bird_id = "bird_01"  # Focus on one bird for detailed tracing
