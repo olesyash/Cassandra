@@ -25,14 +25,19 @@ class TrackerClient:
         self.num_birds = 10
         self.query_interval = 30  # Query every 30 seconds
         self.log_file = "bird_tracking_log.txt"
+        
+        # Tracing configuration
+        self.traced_bird_id = "bird_01"  # Focus on same bird as bird_client_v2
+        self.trace_log_file = "bird_select_traces.log"
 
         # Initialize connection
         self.cluster = None
         self.session = None
         self.connect_to_cassandra()
 
-        # Initialize log file
+        # Initialize log files
         self.initialize_log_file()
+        self.initialize_trace_log()
 
     def connect_to_cassandra(self):
         """Connect to Cassandra cluster"""
@@ -69,6 +74,70 @@ class TrackerClient:
             print(f"✗ Failed to initialize log file: {e}")
             raise
 
+    def initialize_trace_log(self):
+        """Initialize the trace log file for SELECT operations"""
+        try:
+            with open(self.trace_log_file, "w", encoding="utf-8") as f:
+                f.write("=== Bird SELECT Operations Trace Log ===\n")
+                f.write(f"Traced Bird: {self.traced_bird_id}\n")
+                f.write(f"Log started at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+                f.write("=" * 80 + "\n\n")
+            print(f"✓ Trace log file initialized: {self.trace_log_file}")
+        except Exception as e:
+            print(f"✗ Failed to initialize trace log file: {e}")
+
+    def parse_and_log_trace(self, operation_type, bird_id, trace, operation_details):
+        """Parse trace results and log detailed information about coordinator and replicas"""
+        if not trace:
+            return
+            
+        try:
+            with open(self.trace_log_file, "a", encoding="utf-8") as f:
+                timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                f.write(f"\n[{timestamp}] {operation_type} OPERATION TRACE for {bird_id}\n")
+                f.write("-" * 60 + "\n")
+                f.write(f"Operation Details: {operation_details}\n")
+                f.write(f"Trace ID: {trace.trace_id}\n")
+                f.write(f"Coordinator: {trace.coordinator}\n")
+                f.write(f"Total Duration: {trace.duration.total_seconds() * 1000000:.0f} microseconds\n")
+                f.write(f"Request Type: {getattr(trace, 'request_type', 'N/A')}\n")
+                f.write(f"Parameters: {getattr(trace, 'parameters', 'N/A')}\n\n")
+                
+                # Parse trace events to show operation flow
+                f.write("OPERATION FLOW (Coordinator and Replicas Timeline):\n")
+                f.write("-" * 50 + "\n")
+                
+                if hasattr(trace, 'events') and trace.events:
+                    for i, event in enumerate(trace.events, 1):
+                        source = getattr(event, 'source', 'Unknown')
+                        source_elapsed_raw = getattr(event, 'source_elapsed', 0)
+                        thread_name = getattr(event, 'thread_name', 'Unknown')
+                        activity = getattr(event, 'description', 'Unknown activity')
+                        
+                        # Convert source_elapsed to microseconds if it's a timedelta
+                        if hasattr(source_elapsed_raw, 'total_seconds'):
+                            source_elapsed = int(source_elapsed_raw.total_seconds() * 1000000)
+                        else:
+                            source_elapsed = int(source_elapsed_raw) if source_elapsed_raw else 0
+                        
+                        f.write(f"  Step {i:2d}: [{source_elapsed:8d} μs] {source}\n")
+                        f.write(f"           Thread: {thread_name}\n")
+                        f.write(f"           Activity: {activity}\n")
+                        
+                        # Identify coordinator vs replica operations
+                        if source == str(trace.coordinator):
+                            f.write(f"           >>> COORDINATOR OPERATION <<<\n")
+                        else:
+                            f.write(f"           >>> REPLICA OPERATION <<<\n")
+                        f.write("\n")
+                else:
+                    f.write("  No detailed trace events available\n")
+                
+                f.write("=" * 60 + "\n\n")
+                
+        except Exception as e:
+            print(f"✗ Error logging trace information: {e}")
+
     def get_bird_locations(self, bird_id):
         """Get all locations for a specific bird, ordered by timestamp descending"""
         try:
@@ -81,9 +150,24 @@ class TrackerClient:
 
             # Prepare statement for better performance
             stmt = self.session.prepare(query)
-            rows = list(self.session.execute(stmt, (bird_id,)))
-
-            return rows
+            
+            # Add tracing for the specific traced bird
+            if bird_id == self.traced_bird_id:
+                print(f"  🔍 TRACING SELECT for {bird_id}...")
+                result = self.session.execute(stmt, (bird_id,), trace=True)
+                rows = list(result)
+                
+                # Get and parse trace information
+                trace = result.get_query_trace()
+                operation_details = f"SELECT all locations for {bird_id} (found {len(rows)} records)"
+                self.parse_and_log_trace("SELECT", bird_id, trace, operation_details)
+                
+                print(f"  ✓ TRACED SELECT for {bird_id} - Found {len(rows)} locations - Trace logged")
+                return rows
+            else:
+                # Regular query without tracing for other birds
+                rows = list(self.session.execute(stmt, (bird_id,)))
+                return rows
 
         except Exception as e:
             print(f"✗ Error querying locations for {bird_id}: {e}")
@@ -164,6 +248,8 @@ class TrackerClient:
         print(f"Query interval: {self.query_interval} seconds")
         print(f"Tracking {self.num_birds} birds")
         print(f"Log file: {self.log_file}")
+        print(f"🔍 TRACING ENABLED for {self.traced_bird_id} - SELECT operations will be traced")
+        print(f"📁 Trace results will be logged to: {self.trace_log_file}")
 
         if duration_minutes:
             print(f"Running for {duration_minutes} minutes")
@@ -199,6 +285,11 @@ class TrackerClient:
 
         except KeyboardInterrupt:
             print(f"\n✓ Tracking stopped by user after {query_count} queries")
+            print(f"📊 Trace Summary:")
+            print(f"   - Traced bird: {self.traced_bird_id}")
+            print(f"   - Total SELECT operations traced: {query_count}")
+            print(f"   - Trace log file: {self.trace_log_file}")
+            print(f"   - Check the trace file for detailed coordinator/replica flow analysis")
         except Exception as e:
             print(f"\n✗ Tracking failed: {e}")
             raise
@@ -227,27 +318,13 @@ class TrackerClient:
 
 
 def main():
-    """Main function with user options"""
+    """Main function - runs continuous tracking indefinitely"""
     tracker = TrackerClient()
 
     try:
-        print("\nChoose tracking mode:")
-        print("1. Single query (run once)")
-        print("2. Continuous tracking for specific duration")
-        print("3. Continuous tracking (indefinite)")
-
-        choice = input("\nEnter choice (1-3): ").strip()
-
-        if choice == "1":
-            tracker.run_single_query()
-        elif choice == "2":
-            duration = int(input("Enter duration in minutes: "))
-            tracker.run_continuous_tracking(duration_minutes=duration)
-        elif choice == "3":
-            tracker.run_continuous_tracking()
-        else:
-            print("Invalid choice. Running single query.")
-            tracker.run_single_query()
+        print("\nStarting continuous tracking (indefinite)...")
+        print("Press Ctrl+C to stop tracking")
+        tracker.run_continuous_tracking()
 
     except Exception as e:
         print(f"Error: {e}")

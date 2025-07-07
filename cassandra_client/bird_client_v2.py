@@ -25,25 +25,32 @@ class BirdClient:
         self.num_birds = 10
         self.updates_per_bird = 20
         self.update_interval = 60  # 1 minute in seconds
+        
+        # Tracing configuration
+        self.traced_bird_id = "bird_01"  # Focus on one bird for detailed tracing
+        self.trace_log_file = "bird_update_traces.log"
 
         # Bird species for variety
         self.species_list = [
-            "Sparrow",
-            "Eagle",
-            "Hawk",
-            "Owl",
-            "Pigeon",
-            "Seagull",
-            "Robin",
-            "Swan",
-            "Falcon",
-            "Woodpecker",
+            "Eurasian Hoopoe ",
+            "White-spectacled Bulbul",
+            "Griffon Vulture",
+            "Tristram's Starling",
+            "Chukar Partridge",
+            "Little Green Bee-eater",
+            "Syrian Woodpecker",
+            "Desert Lark",
+            "Barn Owl",
+            "European Roller",
         ]
 
         # Initialize connection
         self.cluster = None
         self.session = None
         self.connect_to_cassandra()
+        
+        # Initialize trace log file
+        self.initialize_trace_log()
 
     def connect_to_cassandra(self):
         """Connect to Cassandra cluster"""
@@ -57,6 +64,70 @@ class BirdClient:
         except Exception as e:
             print(f"✗ Failed to connect to Cassandra: {e}")
             raise
+
+    def initialize_trace_log(self):
+        """Initialize the trace log file for UPDATE operations"""
+        try:
+            with open(self.trace_log_file, "w", encoding="utf-8") as f:
+                f.write("=== Bird UPDATE Operations Trace Log ===\n")
+                f.write(f"Traced Bird: {self.traced_bird_id}\n")
+                f.write(f"Log started at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+                f.write("=" * 80 + "\n\n")
+            print(f"✓ Trace log file initialized: {self.trace_log_file}")
+        except Exception as e:
+            print(f"✗ Failed to initialize trace log file: {e}")
+
+    def parse_and_log_trace(self, operation_type, bird_id, trace, operation_details):
+        """Parse trace results and log detailed information about coordinator and replicas"""
+        if not trace:
+            return
+            
+        try:
+            with open(self.trace_log_file, "a", encoding="utf-8") as f:
+                timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                f.write(f"\n[{timestamp}] {operation_type} OPERATION TRACE for {bird_id}\n")
+                f.write("-" * 60 + "\n")
+                f.write(f"Operation Details: {operation_details}\n")
+                f.write(f"Trace ID: {trace.trace_id}\n")
+                f.write(f"Coordinator: {trace.coordinator}\n")
+                f.write(f"Total Duration: {trace.duration.total_seconds() * 1000000:.0f} microseconds\n")
+                f.write(f"Request Type: {getattr(trace, 'request_type', 'N/A')}\n")
+                f.write(f"Parameters: {getattr(trace, 'parameters', 'N/A')}\n\n")
+                
+                # Parse trace events to show operation flow
+                f.write("OPERATION FLOW (Coordinator and Replicas Timeline):\n")
+                f.write("-" * 50 + "\n")
+                
+                if hasattr(trace, 'events') and trace.events:
+                    for i, event in enumerate(trace.events, 1):
+                        source = getattr(event, 'source', 'Unknown')
+                        source_elapsed_raw = getattr(event, 'source_elapsed', 0)
+                        thread_name = getattr(event, 'thread_name', 'Unknown')
+                        activity = getattr(event, 'description', 'Unknown activity')
+                        
+                        # Convert source_elapsed to microseconds if it's a timedelta
+                        if hasattr(source_elapsed_raw, 'total_seconds'):
+                            source_elapsed = int(source_elapsed_raw.total_seconds() * 1000000)
+                        else:
+                            source_elapsed = int(source_elapsed_raw) if source_elapsed_raw else 0
+                        
+                        f.write(f"  Step {i:2d}: [{source_elapsed:8d} μs] {source}\n")
+                        f.write(f"           Thread: {thread_name}\n")
+                        f.write(f"           Activity: {activity}\n")
+                        
+                        # Identify coordinator vs replica operations
+                        if source == str(trace.coordinator):
+                            f.write(f"           >>> COORDINATOR OPERATION <<<\n")
+                        else:
+                            f.write(f"           >>> REPLICA OPERATION <<<\n")
+                        f.write("\n")
+                else:
+                    f.write("  No detailed trace events available\n")
+                
+                f.write("=" * 60 + "\n\n")
+                
+        except Exception as e:
+            print(f"✗ Error logging trace information: {e}")
 
     def create_keyspace_and_table(self):
         """Create keyspace and birds tracking table if they don't exist"""
@@ -114,12 +185,28 @@ class BirdClient:
             longitude = base_lon + (i * 0.1)
 
             try:
-                self.session.execute(
-                    insert_stmt, (bird_id, timestamp, species, latitude, longitude)
-                )
-                print(
-                    f"  ✓ Inserted initial location for {bird_id} ({species}) at ({latitude:.4f}, {longitude:.4f})"
-                )
+                # Add tracing for the specific traced bird's initial insert
+                if bird_id == self.traced_bird_id:
+                    print(f"  🔍 TRACING INITIAL INSERT for {bird_id}...")
+                    result = self.session.execute(
+                        insert_stmt, (bird_id, timestamp, species, latitude, longitude),
+                        trace=True
+                    )
+                    
+                    # Get and parse trace information
+                    trace = result.get_query_trace()
+                    operation_details = f"INITIAL INSERT location ({latitude:.4f}, {longitude:.4f})"
+                    self.parse_and_log_trace("INSERT", bird_id, trace, operation_details)
+                    
+                    print(f"  ✓ TRACED INITIAL INSERT for {bird_id} ({species}) at ({latitude:.4f}, {longitude:.4f}) - Trace logged")
+                else:
+                    # Regular insert without tracing for other birds
+                    self.session.execute(
+                        insert_stmt, (bird_id, timestamp, species, latitude, longitude)
+                    )
+                    print(
+                        f"  ✓ Inserted initial location for {bird_id} ({species}) at ({latitude:.4f}, {longitude:.4f})"
+                    )
 
                 # Small delay between insertions
                 time.sleep(1)
@@ -162,12 +249,28 @@ class BirdClient:
                 )
 
                 try:
-                    self.session.execute(
-                        update_stmt, (bird_id, timestamp, species, latitude, longitude)
-                    )
-                    print(
-                        f"  ✓ Updated {bird_id} location to ({latitude:.4f}, {longitude:.4f})"
-                    )
+                    # Add tracing for the specific traced bird
+                    if bird_id == self.traced_bird_id:
+                        print(f"  🔍 TRACING UPDATE for {bird_id}...")
+                        result = self.session.execute(
+                            update_stmt, (bird_id, timestamp, species, latitude, longitude),
+                            trace=True
+                        )
+                        
+                        # Get and parse trace information
+                        trace = result.get_query_trace()
+                        operation_details = f"UPDATE location to ({latitude:.4f}, {longitude:.4f}) - Round {update_round + 1}"
+                        self.parse_and_log_trace("UPDATE", bird_id, trace, operation_details)
+                        
+                        print(f"  ✓ TRACED UPDATE {bird_id} location to ({latitude:.4f}, {longitude:.4f}) - Trace logged")
+                    else:
+                        # Regular update without tracing for other birds
+                        self.session.execute(
+                            update_stmt, (bird_id, timestamp, species, latitude, longitude)
+                        )
+                        print(
+                            f"  ✓ Updated {bird_id} location to ({latitude:.4f}, {longitude:.4f})"
+                        )
 
                 except Exception as e:
                     print(f"  ✗ Failed to update {bird_id}: {e}")
@@ -193,6 +296,8 @@ class BirdClient:
                 f"Target: {self.num_birds} birds with {self.updates_per_bird} updates each"
             )
             print(f"Update interval: {self.update_interval} seconds")
+            print(f"🔍 TRACING ENABLED for {self.traced_bird_id} - UPDATE operations will be traced")
+            print(f"📁 Trace results will be logged to: {self.trace_log_file}")
 
             # Step 1: Create keyspace and table
             self.create_keyspace_and_table()
@@ -204,6 +309,11 @@ class BirdClient:
             self.update_bird_locations()
 
             print("\n=== Bird Client Completed Successfully ===")
+            print(f"📊 Trace Summary:")
+            print(f"   - Traced bird: {self.traced_bird_id}")
+            print(f"   - Total operations traced: {1 + self.updates_per_bird} (1 INSERT + {self.updates_per_bird} UPDATEs)")
+            print(f"   - Trace log file: {self.trace_log_file}")
+            print(f"   - Check the trace file for detailed coordinator/replica flow analysis")
 
         except Exception as e:
             print(f"\n✗ Bird Client failed: {e}")
