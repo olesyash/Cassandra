@@ -148,12 +148,13 @@ class BirdClient:
             self.session.execute(f"""
                 CREATE TABLE IF NOT EXISTS {self.table} (
                     bird_id TEXT,
+                    date DATE,
                     timestamp TIMESTAMP,
                     species TEXT,
                     latitude DOUBLE,
                     longitude DOUBLE,
-                    PRIMARY KEY (bird_id, timestamp)
-                ) WITH CLUSTERING ORDER BY (timestamp DESC)
+                    PRIMARY KEY (bird_id, date)
+                ) WITH CLUSTERING ORDER BY (date DESC)
             """)
 
             print("✓ Keyspace and table created successfully")
@@ -168,8 +169,8 @@ class BirdClient:
 
         # Prepare statement for better performance
         insert_stmt = self.session.prepare(f"""
-            INSERT INTO {self.table} (bird_id, timestamp, species, latitude, longitude)
-            VALUES (?, ?, ?, ?, ?)
+            INSERT INTO {self.table} (bird_id, date, timestamp, species, latitude, longitude)
+            VALUES (?, ?, ?, ?, ?, ?)
         """)
 
         base_lat = 40.7128  # Starting around NYC
@@ -188,8 +189,9 @@ class BirdClient:
                 # Add tracing for the specific traced bird's initial insert
                 if bird_id == self.traced_bird_id:
                     print(f"  🔍 TRACING INITIAL INSERT for {bird_id}...")
+                    date = timestamp.date()
                     result = self.session.execute(
-                        insert_stmt, (bird_id, timestamp, species, latitude, longitude),
+                        insert_stmt, (bird_id, date, timestamp, species, latitude, longitude),
                         trace=True
                     )
                     
@@ -201,8 +203,9 @@ class BirdClient:
                     print(f"  ✓ TRACED INITIAL INSERT for {bird_id} ({species}) at ({latitude:.4f}, {longitude:.4f}) - Trace logged")
                 else:
                     # Regular insert without tracing for other birds
+                    date = timestamp.date()
                     self.session.execute(
-                        insert_stmt, (bird_id, timestamp, species, latitude, longitude)
+                        insert_stmt, (bird_id, date, timestamp, species, latitude, longitude)
                     )
                     print(
                         f"  ✓ Inserted initial location for {bird_id} ({species}) at ({latitude:.4f}, {longitude:.4f})"
@@ -223,8 +226,8 @@ class BirdClient:
 
         # Prepare statement for better performance
         update_stmt = self.session.prepare(f"""
-            INSERT INTO {self.table} (bird_id, timestamp, species, latitude, longitude)
-            VALUES (?, ?, ?, ?, ?)
+            INSERT INTO {self.table} (bird_id, date, timestamp, species, latitude, longitude)
+            VALUES (?, ?, ?, ?, ?, ?)
         """)
 
         base_lat = 40.7128
@@ -252,8 +255,9 @@ class BirdClient:
                     # Add tracing for the specific traced bird
                     if bird_id == self.traced_bird_id:
                         print(f"  🔍 TRACING UPDATE for {bird_id}...")
+                        date = timestamp.date()
                         result = self.session.execute(
-                            update_stmt, (bird_id, timestamp, species, latitude, longitude),
+                            update_stmt, (bird_id, date, timestamp, species, latitude, longitude),
                             trace=True
                         )
                         
@@ -265,8 +269,9 @@ class BirdClient:
                         print(f"  ✓ TRACED UPDATE {bird_id} location to ({latitude:.4f}, {longitude:.4f}) - Trace logged")
                     else:
                         # Regular update without tracing for other birds
+                        date = timestamp.date()
                         self.session.execute(
-                            update_stmt, (bird_id, timestamp, species, latitude, longitude)
+                            update_stmt, (bird_id, date, timestamp, species, latitude, longitude)
                         )
                         print(
                             f"  ✓ Updated {bird_id} location to ({latitude:.4f}, {longitude:.4f})"
