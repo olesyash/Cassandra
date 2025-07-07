@@ -1,0 +1,259 @@
+#!/usr/bin/env python3
+"""
+Tracker Client for Cassandra
+Queries bird locations periodically, derives last location, and writes to log file.
+"""
+
+import time
+import os
+from datetime import datetime
+from cassandra.cluster import Cluster
+from cassandra.auth import PlainTextAuthProvider
+
+
+class TrackerClient:
+    def __init__(self):
+        # Configuration
+        self.cluster_hosts = os.getenv(
+            "CASSANDRA_HOSTS", "cassandra-1,cassandra-2,cassandra-3,cassandra-4"
+        ).split(",")
+        self.port = 9042
+        self.keyspace = "birds_tracking"
+        self.table = "bird_locations"
+
+        # Tracking configuration
+        self.num_birds = 10
+        self.query_interval = 30  # Query every 30 seconds
+        self.log_file = "bird_tracking_log.txt"
+
+        # Initialize connection
+        self.cluster = None
+        self.session = None
+        self.connect_to_cassandra()
+
+        # Initialize log file
+        self.initialize_log_file()
+
+    def connect_to_cassandra(self):
+        """Connect to Cassandra cluster"""
+        try:
+            print("Connecting to Cassandra cluster...")
+            self.cluster = Cluster(
+                contact_points=self.cluster_hosts, port=self.port, connect_timeout=10
+            )
+            self.session = self.cluster.connect()
+            print(f"✓ Connected to Cassandra cluster at {self.cluster_hosts}")
+
+            # Set keyspace
+            self.session.set_keyspace(self.keyspace)
+            print(f"✓ Using keyspace '{self.keyspace}'")
+
+        except Exception as e:
+            print(f"✗ Failed to connect to Cassandra: {e}")
+            raise
+
+    def initialize_log_file(self):
+        """Initialize the log file with headers"""
+        try:
+            with open(self.log_file, "w", encoding="utf-8") as f:
+                f.write("=== Bird Tracking Log ===\n")
+                f.write(
+                    f"Log started at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n"
+                )
+                f.write(
+                    "Format: [Timestamp] Bird ID | Species | Last Location | Total Locations\n"
+                )
+                f.write("=" * 80 + "\n\n")
+            print(f"✓ Log file initialized: {self.log_file}")
+        except Exception as e:
+            print(f"✗ Failed to initialize log file: {e}")
+            raise
+
+    def get_bird_locations(self, bird_id):
+        """Get all locations for a specific bird, ordered by timestamp descending"""
+        try:
+            query = f"""
+                SELECT timestamp, species, latitude, longitude
+                FROM {self.table}
+                WHERE bird_id = ?
+                ORDER BY timestamp DESC
+            """
+
+            # Prepare statement for better performance
+            stmt = self.session.prepare(query)
+            rows = list(self.session.execute(stmt, (bird_id,)))
+
+            return rows
+
+        except Exception as e:
+            print(f"✗ Error querying locations for {bird_id}: {e}")
+            return []
+
+    def derive_last_location(self, locations):
+        """Derive the last (most recent) location from the list of locations"""
+        if not locations:
+            return None
+
+        # Locations are already ordered by timestamp DESC, so first one is the latest
+        return locations[0]
+
+    def format_location_info(self, bird_id, locations):
+        """Format location information for logging"""
+        if not locations:
+            return f"No locations found for {bird_id}"
+
+        last_location = self.derive_last_location(locations)
+        total_locations = len(locations)
+
+        timestamp = last_location.timestamp.strftime("%Y-%m-%d %H:%M:%S")
+        species = last_location.species
+        latitude = last_location.latitude
+        longitude = last_location.longitude
+
+        return (
+            f"{bird_id} | {species} | "
+            f"Last: ({latitude:.4f}, {longitude:.4f}) at {timestamp} | "
+            f"Total locations: {total_locations}"
+        )
+
+    def log_tracking_data(self, query_time, tracking_data):
+        """Write tracking data to log file"""
+        try:
+            with open(self.log_file, "a", encoding="utf-8") as f:
+                f.write(f"[{query_time}] Tracking Query Results:\n")
+                f.write("-" * 60 + "\n")
+
+                for bird_id, data in tracking_data.items():
+                    f.write(f"  {data}\n")
+
+                f.write("\n")
+
+        except Exception as e:
+            print(f"✗ Error writing to log file: {e}")
+
+    def query_all_birds(self):
+        """Query locations for all birds and return formatted data"""
+        query_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        tracking_data = {}
+
+        print(f"\n--- Querying all birds at {query_time} ---")
+
+        for i in range(self.num_birds):
+            bird_id = f"bird_{i + 1:02d}"
+
+            try:
+                # Get locations for this bird
+                locations = self.get_bird_locations(bird_id)
+
+                # Format the information
+                formatted_info = self.format_location_info(bird_id, locations)
+                tracking_data[bird_id] = formatted_info
+
+                print(f"  ✓ {bird_id}: {len(locations)} locations found")
+
+            except Exception as e:
+                error_msg = f"Error querying {bird_id}: {e}"
+                tracking_data[bird_id] = error_msg
+                print(f"  ✗ {error_msg}")
+
+        return query_time, tracking_data
+
+    def run_continuous_tracking(self, duration_minutes=None):
+        """Run continuous tracking for a specified duration or indefinitely"""
+        print("=== Tracker Client Starting ===")
+        print(f"Query interval: {self.query_interval} seconds")
+        print(f"Tracking {self.num_birds} birds")
+        print(f"Log file: {self.log_file}")
+
+        if duration_minutes:
+            print(f"Running for {duration_minutes} minutes")
+            end_time = datetime.now().timestamp() + (duration_minutes * 60)
+        else:
+            print("Running indefinitely (Ctrl+C to stop)")
+            end_time = None
+
+        query_count = 0
+
+        try:
+            while True:
+                query_count += 1
+
+                # Query all birds
+                query_time, tracking_data = self.query_all_birds()
+
+                # Log the data
+                self.log_tracking_data(query_time, tracking_data)
+
+                print(f"✓ Query #{query_count} completed and logged")
+
+                # Check if we should stop
+                if end_time and datetime.now().timestamp() >= end_time:
+                    print(
+                        f"\n✓ Completed {query_count} queries over {duration_minutes} minutes"
+                    )
+                    break
+
+                # Wait before next query
+                print(f"⏳ Waiting {self.query_interval} seconds before next query...")
+                time.sleep(self.query_interval)
+
+        except KeyboardInterrupt:
+            print(f"\n✓ Tracking stopped by user after {query_count} queries")
+        except Exception as e:
+            print(f"\n✗ Tracking failed: {e}")
+            raise
+
+    def run_single_query(self):
+        """Run a single query for all birds"""
+        print("=== Tracker Client - Single Query ===")
+
+        query_time, tracking_data = self.query_all_birds()
+        self.log_tracking_data(query_time, tracking_data)
+
+        print(f"\n✓ Single query completed and logged to {self.log_file}")
+
+        # Also print results to console
+        print("\nResults:")
+        for bird_id, data in tracking_data.items():
+            print(f"  {data}")
+
+    def cleanup(self):
+        """Clean up connections"""
+        if self.session:
+            self.session.shutdown()
+        if self.cluster:
+            self.cluster.shutdown()
+        print("Connection closed")
+
+
+def main():
+    """Main function with user options"""
+    tracker = TrackerClient()
+
+    try:
+        print("\nChoose tracking mode:")
+        print("1. Single query (run once)")
+        print("2. Continuous tracking for specific duration")
+        print("3. Continuous tracking (indefinite)")
+
+        choice = input("\nEnter choice (1-3): ").strip()
+
+        if choice == "1":
+            tracker.run_single_query()
+        elif choice == "2":
+            duration = int(input("Enter duration in minutes: "))
+            tracker.run_continuous_tracking(duration_minutes=duration)
+        elif choice == "3":
+            tracker.run_continuous_tracking()
+        else:
+            print("Invalid choice. Running single query.")
+            tracker.run_single_query()
+
+    except Exception as e:
+        print(f"Error: {e}")
+    finally:
+        tracker.cleanup()
+
+
+if __name__ == "__main__":
+    main()
