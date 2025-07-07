@@ -24,7 +24,7 @@ class BirdClient:
         # Bird configuration
         self.num_birds = 10
         self.updates_per_bird = 20
-        self.update_interval = 1  # 1 second for faster execution
+        self.update_interval = 5  # 5 seconds for testing
         
         # Tracing configuration
         self.traced_bird_id = "bird_01"  # Focus on one bird for detailed tracing
@@ -137,7 +137,7 @@ class BirdClient:
             # Create keyspace
             self.session.execute(f"""
                 CREATE KEYSPACE IF NOT EXISTS {self.keyspace}
-                WITH replication = {{'class': 'SimpleStrategy', 'replication_factor': 2}}
+                WITH replication = {{'class': 'SimpleStrategy', 'replication_factor': 3}}
             """)
 
             # Set keyspace
@@ -153,8 +153,8 @@ class BirdClient:
                     species TEXT,
                     latitude DOUBLE,
                     longitude DOUBLE,
-                    PRIMARY KEY (bird_id, date)
-                ) WITH CLUSTERING ORDER BY (date DESC)
+                    PRIMARY KEY ((bird_id, date), timestamp)
+                ) WITH CLUSTERING ORDER BY (timestamp DESC)
             """)
 
             print("✓ Keyspace and table created successfully")

@@ -139,45 +139,39 @@ class TrackerClient:
             print(f"✗ Error logging trace information: {e}")
 
     def get_bird_locations(self, bird_id):
-        """Get all locations for a specific bird for the most recent date, ordered by timestamp descending"""
+        """Get all locations for a specific bird for today's date, ordered by timestamp descending"""
         try:
-            # Step 1: Get all available dates for this bird, most recent first
-            date_query = f"""
-                SELECT date FROM {self.table}
-                WHERE bird_id = ?
-                ORDER BY date DESC
-            """
-            date_stmt = self.session.prepare(date_query)
-            date_rows = list(self.session.execute(date_stmt, (bird_id,)))
-            if not date_rows:
-                return []
-            most_recent_date = date_rows[0].date
-
-            # Step 2: Get all locations for this bird_id and most recent date
-            loc_query = f"""
+            from datetime import date as date_type
+            
+            # Query for today's date (most realistic scenario for real-time tracking)
+            today = date_type.today()
+            
+            # Get all locations for this bird_id and today's date
+            # With the new primary key ((bird_id, date), timestamp), this query is efficient
+            # and results will be automatically sorted by timestamp DESC due to clustering order
+            query = f"""
                 SELECT timestamp, species, latitude, longitude
                 FROM {self.table}
                 WHERE bird_id = ? AND date = ?
+                ORDER BY timestamp DESC
             """
-            loc_stmt = self.session.prepare(loc_query)
+            stmt = self.session.prepare(query)
 
             # Add tracing for the specific traced bird
             if bird_id == self.traced_bird_id:
-                print(f"  🔍 TRACING SELECT for {bird_id} on date {most_recent_date}...")
-                result = self.session.execute(loc_stmt, (bird_id, most_recent_date), trace=True)
+                print(f"  🔍 TRACING SELECT for {bird_id} on date {today}...")
+                result = self.session.execute(stmt, (bird_id, today), trace=True)
                 rows = list(result)
-                # Sort by timestamp descending in Python
-                rows.sort(key=lambda row: row.timestamp, reverse=True)
+                
                 # Get and parse trace information
                 trace = result.get_query_trace()
-                operation_details = f"SELECT all locations for {bird_id} on {most_recent_date} (found {len(rows)} records)"
+                operation_details = f"SELECT all locations for {bird_id} on {today} (found {len(rows)} records)"
                 self.parse_and_log_trace("SELECT", bird_id, trace, operation_details)
-                print(f"  ✓ TRACED SELECT for {bird_id} on {most_recent_date} - Found {len(rows)} locations - Trace logged")
+                print(f"  ✓ TRACED SELECT for {bird_id} on {today} - Found {len(rows)} locations - Trace logged")
                 return rows
             else:
                 # Regular query without tracing for other birds
-                rows = list(self.session.execute(loc_stmt, (bird_id, most_recent_date)))
-                rows.sort(key=lambda row: row.timestamp, reverse=True)
+                rows = list(self.session.execute(stmt, (bird_id, today)))
                 return rows
 
         except Exception as e:
