@@ -1,0 +1,239 @@
+=== Bird Tracking Log ===
+Log started at: 2025-07-08 06:44:37
+Format: [Timestamp] Bird ID | Species | Last Location | Total Locations
+================================================================================
+
+[2025-07-08 06:44:37] Tracking Query Results:
+------------------------------------------------------------
+  bird_01 | Eurasian Hoopoe  | Last: (40.9128, -73.8060) at 2025-07-08 06:25:57 | Total locations: 21
+  bird_02 | White-spectacled Bulbul | Last: (40.6128, -74.1060) at 2025-07-08 06:25:57 | Total locations: 21
+  bird_03 | Griffon Vulture | Last: (41.1128, -74.0060) at 2025-07-08 06:25:57 | Total locations: 21
+  bird_04 | Tristram's Starling | Last: (40.8128, -73.5060) at 2025-07-08 06:25:57 | Total locations: 21
+  bird_05 | Chukar Partridge | Last: (41.3128, -73.8060) at 2025-07-08 06:25:57 | Total locations: 21
+  bird_06 | Little Green Bee-eater | Last: (41.0128, -73.7060) at 2025-07-08 06:25:57 | Total locations: 21
+  bird_07 | Syrian Woodpecker | Last: (41.5128, -73.2060) at 2025-07-08 06:25:57 | Total locations: 21
+  bird_08 | Desert Lark | Last: (41.2128, -73.5060) at 2025-07-08 06:25:57 | Total locations: 21
+  bird_09 | Barn Owl | Last: (41.7128, -73.4060) at 2025-07-08 06:25:57 | Total locations: 21
+  bird_10 | European Roller | Last: (41.4128, -72.9060) at 2025-07-08 06:25:57 | Total locations: 21
+
+[2025-07-08 06:45:09] Tracking Query Results:
+------------------------------------------------------------
+  bird_01 | Eurasian Hoopoe  | Last: (40.7228, -73.9960) at 2025-07-08 06:44:52 | Total locations: 23
+  bird_02 | White-spectacled Bulbul | Last: (40.8028, -73.9160) at 2025-07-08 06:44:52 | Total locations: 23
+  bird_03 | Griffon Vulture | Last: (40.9228, -73.8160) at 2025-07-08 06:44:52 | Total locations: 23
+  bird_04 | Tristram's Starling | Last: (41.0028, -73.6960) at 2025-07-08 06:44:52 | Total locations: 23
+  bird_05 | Chukar Partridge | Last: (41.1228, -73.6160) at 2025-07-08 06:44:52 | Total locations: 23
+  bird_06 | Little Green Bee-eater | Last: (41.2028, -73.5160) at 2025-07-08 06:44:52 | Total locations: 23
+  bird_07 | Syrian Woodpecker | Last: (41.3228, -73.3960) at 2025-07-08 06:44:52 | Total locations: 23
+  bird_08 | Desert Lark | Last: (41.4028, -73.3160) at 2025-07-08 06:44:52 | Total locations: 23
+  bird_09 | Barn Owl | Last: (41.5228, -73.2160) at 2025-07-08 06:44:52 | Total locations: 23
+  bird_10 | European Roller | Last: (41.6028, -73.0960) at 2025-07-08 06:44:52 | Total locations: 23
+
+[2025-07-08 06:45:41] Tracking Query Results:
+------------------------------------------------------------
+  bird_01 | Eurasian Hoopoe  | Last: (40.7228, -73.9960) at 2025-07-08 06:44:52 | Total locations: 23
+  bird_02 | White-spectacled Bulbul | Last: (40.8028, -73.9160) at 2025-07-08 06:44:52 | Total locations: 23
+  bird_03 | Griffon Vulture | Last: (40.9228, -73.8160) at 2025-07-08 06:44:52 | Total locations: 23
+  bird_04 | Tristram's Starling | Last: (41.0028, -73.6960) at 2025-07-08 06:44:52 | Total locations: 23
+  bird_05 | Chukar Partridge | Last: (41.1228, -73.6160) at 2025-07-08 06:44:52 | Total locations: 23
+  bird_06 | Little Green Bee-eater | Last: (41.2028, -73.5160) at 2025-07-08 06:44:52 | Total locations: 23
+  bird_07 | Syrian Woodpecker | Last: (41.3228, -73.3960) at 2025-07-08 06:44:52 | Total locations: 23
+  bird_08 | Desert Lark | Last: (41.4028, -73.3160) at 2025-07-08 06:44:52 | Total locations: 23
+  bird_09 | Barn Owl | Last: (41.5228, -73.2160) at 2025-07-08 06:44:52 | Total locations: 23
+  bird_10 | European Roller | Last: (41.6028, -73.0960) at 2025-07-08 06:44:52 | Total locations: 23
+
+[2025-07-08 06:46:12] Tracking Query Results:
+------------------------------------------------------------
+  bird_01 | Eurasian Hoopoe  | Last: (40.7328, -73.9860) at 2025-07-08 06:45:55 | Total locations: 24
+  bird_02 | White-spectacled Bulbul | Last: (40.7928, -73.9260) at 2025-07-08 06:45:55 | Total locations: 24
+  bird_03 | Griffon Vulture | Last: (40.9328, -73.8260) at 2025-07-08 06:45:55 | Total locations: 24
+  bird_04 | Tristram's Starling | Last: (40.9928, -73.6860) at 2025-07-08 06:45:55 | Total locations: 24
+  bird_05 | Chukar Partridge | Last: (41.1328, -73.6260) at 2025-07-08 06:45:55 | Total locations: 24
+  bird_06 | Little Green Bee-eater | Last: (41.1928, -73.5260) at 2025-07-08 06:45:55 | Total locations: 24
+  bird_07 | Syrian Woodpecker | Last: (41.3328, -73.3860) at 2025-07-08 06:45:55 | Total locations: 24
+  bird_08 | Desert Lark | Last: (41.3928, -73.3260) at 2025-07-08 06:45:55 | Total locations: 24
+  bird_09 | Barn Owl | Last: (41.5328, -73.2260) at 2025-07-08 06:45:55 | Total locations: 24
+  bird_10 | European Roller | Last: (41.5928, -73.0860) at 2025-07-08 06:45:55 | Total locations: 24
+
+[2025-07-08 06:46:44] Tracking Query Results:
+------------------------------------------------------------
+  bird_01 | Eurasian Hoopoe  | Last: (40.7328, -73.9860) at 2025-07-08 06:45:55 | Total locations: 24
+  bird_02 | White-spectacled Bulbul | Last: (40.7928, -73.9260) at 2025-07-08 06:45:55 | Total locations: 24
+  bird_03 | Griffon Vulture | Last: (40.9328, -73.8260) at 2025-07-08 06:45:55 | Total locations: 24
+  bird_04 | Tristram's Starling | Last: (40.9928, -73.6860) at 2025-07-08 06:45:55 | Total locations: 24
+  bird_05 | Chukar Partridge | Last: (41.1328, -73.6260) at 2025-07-08 06:45:55 | Total locations: 24
+  bird_06 | Little Green Bee-eater | Last: (41.1928, -73.5260) at 2025-07-08 06:45:55 | Total locations: 24
+  bird_07 | Syrian Woodpecker | Last: (41.3328, -73.3860) at 2025-07-08 06:45:55 | Total locations: 24
+  bird_08 | Desert Lark | Last: (41.3928, -73.3260) at 2025-07-08 06:45:55 | Total locations: 24
+  bird_09 | Barn Owl | Last: (41.5328, -73.2260) at 2025-07-08 06:45:55 | Total locations: 24
+  bird_10 | European Roller | Last: (41.5928, -73.0860) at 2025-07-08 06:45:55 | Total locations: 24
+
+[2025-07-08 06:47:16] Tracking Query Results:
+------------------------------------------------------------
+  bird_01 | Eurasian Hoopoe  | Last: (40.7428, -73.9760) at 2025-07-08 06:46:59 | Total locations: 25
+  bird_02 | White-spectacled Bulbul | Last: (40.7828, -73.9360) at 2025-07-08 06:46:59 | Total locations: 25
+  bird_03 | Griffon Vulture | Last: (40.9428, -73.8360) at 2025-07-08 06:46:59 | Total locations: 25
+  bird_04 | Tristram's Starling | Last: (40.9828, -73.6760) at 2025-07-08 06:46:59 | Total locations: 25
+  bird_05 | Chukar Partridge | Last: (41.1428, -73.6360) at 2025-07-08 06:46:59 | Total locations: 25
+  bird_06 | Little Green Bee-eater | Last: (41.1828, -73.5360) at 2025-07-08 06:46:59 | Total locations: 25
+  bird_07 | Syrian Woodpecker | Last: (41.3428, -73.3760) at 2025-07-08 06:46:59 | Total locations: 25
+  bird_08 | Desert Lark | Last: (41.3828, -73.3360) at 2025-07-08 06:46:59 | Total locations: 25
+  bird_09 | Barn Owl | Last: (41.5428, -73.2360) at 2025-07-08 06:46:59 | Total locations: 25
+  bird_10 | European Roller | Last: (41.5828, -73.0760) at 2025-07-08 06:46:59 | Total locations: 25
+
+[2025-07-08 06:47:48] Tracking Query Results:
+------------------------------------------------------------
+  bird_01 | Eurasian Hoopoe  | Last: (40.7428, -73.9760) at 2025-07-08 06:46:59 | Total locations: 25
+  bird_02 | White-spectacled Bulbul | Last: (40.7828, -73.9360) at 2025-07-08 06:46:59 | Total locations: 25
+  bird_03 | Griffon Vulture | Last: (40.9428, -73.8360) at 2025-07-08 06:46:59 | Total locations: 25
+  bird_04 | Tristram's Starling | Last: (40.9828, -73.6760) at 2025-07-08 06:46:59 | Total locations: 25
+  bird_05 | Chukar Partridge | Last: (41.1428, -73.6360) at 2025-07-08 06:46:59 | Total locations: 25
+  bird_06 | Little Green Bee-eater | Last: (41.1828, -73.5360) at 2025-07-08 06:46:59 | Total locations: 25
+  bird_07 | Syrian Woodpecker | Last: (41.3428, -73.3760) at 2025-07-08 06:46:59 | Total locations: 25
+  bird_08 | Desert Lark | Last: (41.3828, -73.3360) at 2025-07-08 06:46:59 | Total locations: 25
+  bird_09 | Barn Owl | Last: (41.5428, -73.2360) at 2025-07-08 06:46:59 | Total locations: 25
+  bird_10 | European Roller | Last: (41.5828, -73.0760) at 2025-07-08 06:46:59 | Total locations: 25
+
+[2025-07-08 06:48:20] Tracking Query Results:
+------------------------------------------------------------
+  bird_01 | Eurasian Hoopoe  | Last: (40.7528, -73.9660) at 2025-07-08 06:48:03 | Total locations: 26
+  bird_02 | White-spectacled Bulbul | Last: (40.7728, -73.9460) at 2025-07-08 06:48:03 | Total locations: 26
+  bird_03 | Griffon Vulture | Last: (40.9528, -73.8460) at 2025-07-08 06:48:03 | Total locations: 26
+  bird_04 | Tristram's Starling | Last: (40.9728, -73.6660) at 2025-07-08 06:48:03 | Total locations: 26
+  bird_05 | Chukar Partridge | Last: (41.1528, -73.6460) at 2025-07-08 06:48:03 | Total locations: 26
+  bird_06 | Little Green Bee-eater | Last: (41.1728, -73.5460) at 2025-07-08 06:48:03 | Total locations: 26
+  bird_07 | Syrian Woodpecker | Last: (41.3528, -73.3660) at 2025-07-08 06:48:03 | Total locations: 26
+  bird_08 | Desert Lark | Last: (41.3728, -73.3460) at 2025-07-08 06:48:03 | Total locations: 26
+  bird_09 | Barn Owl | Last: (41.5528, -73.2460) at 2025-07-08 06:48:03 | Total locations: 26
+  bird_10 | European Roller | Last: (41.5728, -73.0660) at 2025-07-08 06:48:03 | Total locations: 26
+
+[2025-07-08 06:48:51] Tracking Query Results:
+------------------------------------------------------------
+  bird_01 | Eurasian Hoopoe  | Last: (40.7528, -73.9660) at 2025-07-08 06:48:03 | Total locations: 26
+  bird_02 | White-spectacled Bulbul | Last: (40.7728, -73.9460) at 2025-07-08 06:48:03 | Total locations: 26
+  bird_03 | Griffon Vulture | Last: (40.9528, -73.8460) at 2025-07-08 06:48:03 | Total locations: 26
+  bird_04 | Tristram's Starling | Last: (40.9728, -73.6660) at 2025-07-08 06:48:03 | Total locations: 26
+  bird_05 | Chukar Partridge | Last: (41.1528, -73.6460) at 2025-07-08 06:48:03 | Total locations: 26
+  bird_06 | Little Green Bee-eater | Last: (41.1728, -73.5460) at 2025-07-08 06:48:03 | Total locations: 26
+  bird_07 | Syrian Woodpecker | Last: (41.3528, -73.3660) at 2025-07-08 06:48:03 | Total locations: 26
+  bird_08 | Desert Lark | Last: (41.3728, -73.3460) at 2025-07-08 06:48:03 | Total locations: 26
+  bird_09 | Barn Owl | Last: (41.5528, -73.2460) at 2025-07-08 06:48:03 | Total locations: 26
+  bird_10 | European Roller | Last: (41.5728, -73.0660) at 2025-07-08 06:48:03 | Total locations: 26
+
+[2025-07-08 06:49:23] Tracking Query Results:
+------------------------------------------------------------
+  bird_01 | Eurasian Hoopoe  | Last: (40.7628, -73.9560) at 2025-07-08 06:49:06 | Total locations: 27
+  bird_02 | White-spectacled Bulbul | Last: (40.7628, -73.9560) at 2025-07-08 06:49:06 | Total locations: 27
+  bird_03 | Griffon Vulture | Last: (40.9628, -73.8560) at 2025-07-08 06:49:06 | Total locations: 27
+  bird_04 | Tristram's Starling | Last: (40.9628, -73.6560) at 2025-07-08 06:49:06 | Total locations: 27
+  bird_05 | Chukar Partridge | Last: (41.1628, -73.6560) at 2025-07-08 06:49:06 | Total locations: 27
+  bird_06 | Little Green Bee-eater | Last: (41.1628, -73.5560) at 2025-07-08 06:49:06 | Total locations: 27
+  bird_07 | Syrian Woodpecker | Last: (41.3628, -73.3560) at 2025-07-08 06:49:06 | Total locations: 27
+  bird_08 | Desert Lark | Last: (41.3628, -73.3560) at 2025-07-08 06:49:06 | Total locations: 27
+  bird_09 | Barn Owl | Last: (41.5628, -73.2560) at 2025-07-08 06:49:06 | Total locations: 27
+  bird_10 | European Roller | Last: (41.5628, -73.0560) at 2025-07-08 06:49:06 | Total locations: 27
+
+[2025-07-08 06:49:55] Tracking Query Results:
+------------------------------------------------------------
+  bird_01 | Eurasian Hoopoe  | Last: (40.7628, -73.9560) at 2025-07-08 06:49:06 | Total locations: 27
+  bird_02 | White-spectacled Bulbul | Last: (40.7628, -73.9560) at 2025-07-08 06:49:06 | Total locations: 27
+  bird_03 | Griffon Vulture | Last: (40.9628, -73.8560) at 2025-07-08 06:49:06 | Total locations: 27
+  bird_04 | Tristram's Starling | Last: (40.9628, -73.6560) at 2025-07-08 06:49:06 | Total locations: 27
+  bird_05 | Chukar Partridge | Last: (41.1628, -73.6560) at 2025-07-08 06:49:06 | Total locations: 27
+  bird_06 | Little Green Bee-eater | Last: (41.1628, -73.5560) at 2025-07-08 06:49:06 | Total locations: 27
+  bird_07 | Syrian Woodpecker | Last: (41.3628, -73.3560) at 2025-07-08 06:49:06 | Total locations: 27
+  bird_08 | Desert Lark | Last: (41.3628, -73.3560) at 2025-07-08 06:49:06 | Total locations: 27
+  bird_09 | Barn Owl | Last: (41.5628, -73.2560) at 2025-07-08 06:49:06 | Total locations: 27
+  bird_10 | European Roller | Last: (41.5628, -73.0560) at 2025-07-08 06:49:06 | Total locations: 27
+
+[2025-07-08 06:50:27] Tracking Query Results:
+------------------------------------------------------------
+  bird_01 | Eurasian Hoopoe  | Last: (40.7728, -73.9460) at 2025-07-08 06:50:10 | Total locations: 28
+  bird_02 | White-spectacled Bulbul | Last: (40.7528, -73.9660) at 2025-07-08 06:50:10 | Total locations: 28
+  bird_03 | Griffon Vulture | Last: (40.9728, -73.8660) at 2025-07-08 06:50:10 | Total locations: 28
+  bird_04 | Tristram's Starling | Last: (40.9528, -73.6460) at 2025-07-08 06:50:10 | Total locations: 28
+  bird_05 | Chukar Partridge | Last: (41.1728, -73.6660) at 2025-07-08 06:50:10 | Total locations: 28
+  bird_06 | Little Green Bee-eater | Last: (41.1528, -73.5660) at 2025-07-08 06:50:10 | Total locations: 28
+  bird_07 | Syrian Woodpecker | Last: (41.3728, -73.3460) at 2025-07-08 06:50:10 | Total locations: 28
+  bird_08 | Desert Lark | Last: (41.3528, -73.3660) at 2025-07-08 06:50:10 | Total locations: 28
+  bird_09 | Barn Owl | Last: (41.5728, -73.2660) at 2025-07-08 06:50:10 | Total locations: 28
+  bird_10 | European Roller | Last: (41.5528, -73.0460) at 2025-07-08 06:50:10 | Total locations: 28
+
+[2025-07-08 06:50:59] Tracking Query Results:
+------------------------------------------------------------
+  bird_01 | Eurasian Hoopoe  | Last: (40.7728, -73.9460) at 2025-07-08 06:50:10 | Total locations: 28
+  bird_02 | White-spectacled Bulbul | Last: (40.7528, -73.9660) at 2025-07-08 06:50:10 | Total locations: 28
+  bird_03 | Griffon Vulture | Last: (40.9728, -73.8660) at 2025-07-08 06:50:10 | Total locations: 28
+  bird_04 | Tristram's Starling | Last: (40.9528, -73.6460) at 2025-07-08 06:50:10 | Total locations: 28
+  bird_05 | Chukar Partridge | Last: (41.1728, -73.6660) at 2025-07-08 06:50:10 | Total locations: 28
+  bird_06 | Little Green Bee-eater | Last: (41.1528, -73.5660) at 2025-07-08 06:50:10 | Total locations: 28
+  bird_07 | Syrian Woodpecker | Last: (41.3728, -73.3460) at 2025-07-08 06:50:10 | Total locations: 28
+  bird_08 | Desert Lark | Last: (41.3528, -73.3660) at 2025-07-08 06:50:10 | Total locations: 28
+  bird_09 | Barn Owl | Last: (41.5728, -73.2660) at 2025-07-08 06:50:10 | Total locations: 28
+  bird_10 | European Roller | Last: (41.5528, -73.0460) at 2025-07-08 06:50:10 | Total locations: 28
+
+[2025-07-08 06:51:30] Tracking Query Results:
+------------------------------------------------------------
+  bird_01 | Eurasian Hoopoe  | Last: (40.7828, -73.9360) at 2025-07-08 06:51:13 | Total locations: 29
+  bird_02 | White-spectacled Bulbul | Last: (40.7428, -73.9760) at 2025-07-08 06:51:13 | Total locations: 29
+  bird_03 | Griffon Vulture | Last: (40.9828, -73.8760) at 2025-07-08 06:51:13 | Total locations: 29
+  bird_04 | Tristram's Starling | Last: (40.9428, -73.6360) at 2025-07-08 06:51:13 | Total locations: 29
+  bird_05 | Chukar Partridge | Last: (41.1828, -73.6760) at 2025-07-08 06:51:13 | Total locations: 29
+  bird_06 | Little Green Bee-eater | Last: (41.1428, -73.5760) at 2025-07-08 06:51:13 | Total locations: 29
+  bird_07 | Syrian Woodpecker | Last: (41.3828, -73.3360) at 2025-07-08 06:51:13 | Total locations: 29
+  bird_08 | Desert Lark | Last: (41.3428, -73.3760) at 2025-07-08 06:51:13 | Total locations: 29
+  bird_09 | Barn Owl | Last: (41.5828, -73.2760) at 2025-07-08 06:51:13 | Total locations: 29
+  bird_10 | European Roller | Last: (41.5428, -73.0360) at 2025-07-08 06:51:13 | Total locations: 29
+
+[2025-07-08 06:52:02] Tracking Query Results:
+------------------------------------------------------------
+  bird_01 | Eurasian Hoopoe  | Last: (40.7828, -73.9360) at 2025-07-08 06:51:13 | Total locations: 29
+  bird_02 | White-spectacled Bulbul | Last: (40.7428, -73.9760) at 2025-07-08 06:51:13 | Total locations: 29
+  bird_03 | Griffon Vulture | Last: (40.9828, -73.8760) at 2025-07-08 06:51:13 | Total locations: 29
+  bird_04 | Tristram's Starling | Last: (40.9428, -73.6360) at 2025-07-08 06:51:13 | Total locations: 29
+  bird_05 | Chukar Partridge | Last: (41.1828, -73.6760) at 2025-07-08 06:51:13 | Total locations: 29
+  bird_06 | Little Green Bee-eater | Last: (41.1428, -73.5760) at 2025-07-08 06:51:13 | Total locations: 29
+  bird_07 | Syrian Woodpecker | Last: (41.3828, -73.3360) at 2025-07-08 06:51:13 | Total locations: 29
+  bird_08 | Desert Lark | Last: (41.3428, -73.3760) at 2025-07-08 06:51:13 | Total locations: 29
+  bird_09 | Barn Owl | Last: (41.5828, -73.2760) at 2025-07-08 06:51:13 | Total locations: 29
+  bird_10 | European Roller | Last: (41.5428, -73.0360) at 2025-07-08 06:51:13 | Total locations: 29
+
+[2025-07-08 06:52:34] Tracking Query Results:
+------------------------------------------------------------
+  bird_01 | Eurasian Hoopoe  | Last: (40.7928, -73.9260) at 2025-07-08 06:52:17 | Total locations: 30
+  bird_02 | White-spectacled Bulbul | Last: (40.7328, -73.9860) at 2025-07-08 06:52:17 | Total locations: 30
+  bird_03 | Griffon Vulture | Last: (40.9928, -73.8860) at 2025-07-08 06:52:17 | Total locations: 30
+  bird_04 | Tristram's Starling | Last: (40.9328, -73.6260) at 2025-07-08 06:52:17 | Total locations: 30
+  bird_05 | Chukar Partridge | Last: (41.1928, -73.6860) at 2025-07-08 06:52:17 | Total locations: 30
+  bird_06 | Little Green Bee-eater | Last: (41.1328, -73.5860) at 2025-07-08 06:52:17 | Total locations: 30
+  bird_07 | Syrian Woodpecker | Last: (41.3928, -73.3260) at 2025-07-08 06:52:17 | Total locations: 30
+  bird_08 | Desert Lark | Last: (41.3328, -73.3860) at 2025-07-08 06:52:17 | Total locations: 30
+  bird_09 | Barn Owl | Last: (41.5928, -73.2860) at 2025-07-08 06:52:17 | Total locations: 30
+  bird_10 | European Roller | Last: (41.5328, -73.0260) at 2025-07-08 06:52:17 | Total locations: 30
+
+[2025-07-08 06:53:06] Tracking Query Results:
+------------------------------------------------------------
+  bird_01 | Eurasian Hoopoe  | Last: (40.7928, -73.9260) at 2025-07-08 06:52:17 | Total locations: 30
+  bird_02 | White-spectacled Bulbul | Last: (40.7328, -73.9860) at 2025-07-08 06:52:17 | Total locations: 30
+  bird_03 | Griffon Vulture | Last: (40.9928, -73.8860) at 2025-07-08 06:52:17 | Total locations: 30
+  bird_04 | Tristram's Starling | Last: (40.9328, -73.6260) at 2025-07-08 06:52:17 | Total locations: 30
+  bird_05 | Chukar Partridge | Last: (41.1928, -73.6860) at 2025-07-08 06:52:17 | Total locations: 30
+  bird_06 | Little Green Bee-eater | Last: (41.1328, -73.5860) at 2025-07-08 06:52:17 | Total locations: 30
+  bird_07 | Syrian Woodpecker | Last: (41.3928, -73.3260) at 2025-07-08 06:52:17 | Total locations: 30
+  bird_08 | Desert Lark | Last: (41.3328, -73.3860) at 2025-07-08 06:52:17 | Total locations: 30
+  bird_09 | Barn Owl | Last: (41.5928, -73.2860) at 2025-07-08 06:52:17 | Total locations: 30
+  bird_10 | European Roller | Last: (41.5328, -73.0260) at 2025-07-08 06:52:17 | Total locations: 30
+
+[2025-07-08 06:53:38] Tracking Query Results:
+------------------------------------------------------------
+  bird_01 | Eurasian Hoopoe  | Last: (40.8028, -73.9160) at 2025-07-08 06:53:21 | Total locations: 31
+  bird_02 | White-spectacled Bulbul | Last: (40.7228, -73.9960) at 2025-07-08 06:53:21 | Total locations: 31
+  bird_03 | Griffon Vulture | Last: (41.0028, -73.8960) at 2025-07-08 06:53:21 | Total locations: 31
+  bird_04 | Tristram's Starling | Last: (40.9228, -73.6160) at 2025-07-08 06:53:21 | Total locations: 31
+  bird_05 | Chukar Partridge | Last: (41.2028, -73.6960) at 2025-07-08 06:53:21 | Total locations: 31
+  bird_06 | Little Green Bee-eater | Last: (41.1228, -73.5960) at 2025-07-08 06:53:21 | Total locations: 31
+  bird_07 | Syrian Woodpecker | Last: (41.4028, -73.3160) at 2025-07-08 06:53:21 | Total locations: 31
+  bird_08 | Desert Lark | Last: (41.3228, -73.3960) at 2025-07-08 06:53:21 | Total locations: 31
+  bird_09 | Barn Owl | Last: (41.6028, -73.2960) at 2025-07-08 06:53:21 | Total locations: 31
+  bird_10 | European Roller | Last: (41.5228, -73.0160) at 2025-07-08 06:53:21 | Total locations: 31
+
