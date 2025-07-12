@@ -19,3 +19,6 @@ bird_update_traces
 To locate the token and replica for a specific bird:
 Attach shell to cassandra-cassandra-client and run:
 python node_failure_simulation.py
+
+To cleanup DB run from any client:
+python cleanup_db.py 
